@@ -53,14 +53,7 @@ class Main {
         console.log(req.body)
         const form = new formidable.IncomingForm();
 		form.parse(req, async (err, fields, files) => {
-			// if (err) {
-			// 	res.send({
-			// 		status: 0,
-			// 		type: 'FORM_DATA_ERROR',
-			// 		message: '表单信息错误'
-			// 	})
-				
-			// }
+			
 			console.log(fields)  
         })
         res.send({
