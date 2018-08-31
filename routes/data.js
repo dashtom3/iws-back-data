@@ -1,13 +1,13 @@
 'use strict';
 
 import express from 'express'
-import Data from '../data/main'
+import main from '../data/main'
 
 const router = express.Router()
 
-router.post('/start', Data.startRead);
-router.post('/stop', Data.stopRead);
-
+router.post('/start', main.startRead);
+router.post('/stop', main.stopRead);
+router.post('/write',main.writeDate);
 
 // router.get('/info', User.getUserInfo);
 // router.post('/update/:user_id', User.update);

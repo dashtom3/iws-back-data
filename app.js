@@ -2,26 +2,44 @@
 
 var createError = require('http-errors');
 var express = require('express');
+import db from './mongodb/db.js';
+
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var config = require('config-lite')(__dirname);
 
 // var indexRouter = require('./routes/index');
 import router from './routes/index.js';
 import main from './data/main.js';
+import connectMongo from 'connect-mongo';
+import session from 'express-session';
+
 var app = express();
 
+
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+//app.set('views', path.join(__dirname, 'views'));
+//app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+const MongoStore = connectMongo(session);
 app.use(cookieParser());
+app.use(session({
+	  name: config.session.name,
+		secret: config.session.secret,
+		resave: true,
+		saveUninitialized: false,
+		cookie: config.session.cookie,
+		store: new MongoStore({
+	  url: config.url
+	}) 
+}))
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use('/', indexRouter);
+//app.use('/', indexRouter);
 router(app);
 
 // catch 404 and forward to error handler
